@@ -33,6 +33,9 @@ async function getWeather() {
         currentTempCelsius = data.main.temp;
         currentTempFahrenheit = (currentTempCelsius * 9/5) + 32;
 
+        // Change background based on weather
+        changeBackground(weatherDescription);
+
         const weatherInfo = `
             <h3>${data.name}, ${data.sys.country}</h3>
             <p>Temperature: <span id="temp">${currentTempCelsius}°C</span></p>
@@ -58,4 +61,27 @@ function toggleTemperature() {
     } else {
         tempElement.innerText = `${currentTempCelsius.toFixed(1)}°C`;
     }
+}
+
+function changeBackground(weatherDescription) {
+    const body = document.body;
+    
+    // Reset the background before changing
+    body.style.backgroundImage = 'none';
+    
+    if (weatherDescription.includes("sunny") || weatherDescription.includes("clear sky")) {
+        body.style.backgroundImage = 'url("clear-sky.jpg")'; // Replace with your sunny image URL or file
+    } else if (weatherDescription.includes("cloud") || weatherDescription.includes("cloudy")) {
+        body.style.backgroundImage = 'url("cloudy.jpg")'; // Replace with your cloudy image URL or file
+    } else if (weatherDescription.includes("rain") || weatherDescription.includes("shower")) {
+        body.style.backgroundImage = 'url("rainy.jpg")'; // Replace with your rainy image URL or file
+    } else if (weatherDescription.includes("snow") || weatherDescription.includes("snowy")) {
+        body.style.backgroundImage = 'url("snowy.jpg")'; // Replace with your snowy image URL or file
+    } else {
+        body.style.backgroundImage = 'url("default.jpg")'; // Default background if no specific weather is matched
+    }
+    
+    body.style.backgroundSize = 'cover';
+    body.style.backgroundPosition = 'center';
+    body.style.backgroundAttachment = 'fixed';
 }
